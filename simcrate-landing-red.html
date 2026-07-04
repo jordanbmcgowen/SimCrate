@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SimCrate | Home Flight Simulator Rentals for Student Pilots</title>
+<meta name="description" content="Rent a complete home flight simulator by the month. Delivered, set up, and configured to your training aircraft. Launching in Dallas Fort Worth.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F8F7F3;
+  --paper-deep:#ECEAE3;
+  --ink:#1A1D24;
+  --ink-soft:#4C5560;
+  --magenta:#DA291C;
+  --chart-blue:#2A7CA8;
+  --panel:#131417;
+  --panel-edge:#27292F;
+  --amber:#F0A83B;
+  --lblue:#8FC6E8;
+  --sky:#8FC6E8;
+  --ground:#8A5A33;
+  --line:rgba(143,198,232,.28);
+  --radius:14px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Inter',sans-serif;
+  background:var(--paper);
+  color:var(--ink);
+  line-height:1.6;
+  font-size:16px;
+  /* faint chart graticule */
+  background-image:
+    linear-gradient(var(--line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size:120px 120px;
+  background-attachment:fixed;
+}
+::selection{background:var(--magenta);color:#fff}
+.mono{font-family:'IBM Plex Mono',monospace}
+.wrap{max-width:1100px;margin:0 auto;padding:0 24px}
+a{color:inherit}
+button{font-family:inherit;cursor:pointer}
+
+/* ---------- top bar ---------- */
+header{
+  position:sticky;top:0;z-index:50;
+  background:rgba(244,239,225,.92);
+  backdrop-filter:blur(8px);
+  border-bottom:2px solid var(--ink);
+}
+.bar{display:flex;align-items:center;justify-content:space-between;height:64px}
+.wordmark{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:1.35rem;letter-spacing:-.02em;text-decoration:none;display:flex;align-items:center;gap:.55rem}
+.wordmark .tick{width:14px;height:14px;border:2.5px solid var(--magenta);border-radius:50%;position:relative;flex:none}
+.wordmark .tick::after{content:"";position:absolute;left:50%;top:-7px;width:2.5px;height:6px;background:var(--magenta);transform:translateX(-50%)}
+.bar-tag{font-family:'IBM Plex Mono',monospace;font-size:.72rem;letter-spacing:.12em;color:var(--chart-blue);display:none}
+@media(min-width:720px){.bar-tag{display:block}}
+.btn{
+  display:inline-block;border:2px solid var(--ink);background:var(--ink);color:var(--paper);
+  font-weight:600;font-size:.92rem;padding:.6rem 1.25rem;border-radius:999px;text-decoration:none;
+  transition:transform .15s ease, background .15s ease;
+}
+.btn:hover{background:var(--magenta);border-color:var(--magenta);transform:translateY(-1px)}
+.btn:focus-visible,a:focus-visible,input:focus-visible,summary:focus-visible{outline:3px solid var(--magenta);outline-offset:2px}
+.btn-ghost{background:transparent;color:var(--ink)}
+.btn-ghost:hover{background:var(--ink);color:var(--paper)}
+
+/* ---------- hero ---------- */
+.hero{padding:72px 0 40px;position:relative;overflow:hidden}
+.hero-grid{display:grid;gap:48px;align-items:center}
+@media(min-width:920px){.hero-grid{grid-template-columns:1.15fr .85fr}}
+.eyebrow{font-family:'IBM Plex Mono',monospace;font-size:.75rem;letter-spacing:.22em;color:var(--magenta);font-weight:600;margin-bottom:1.1rem}
+h1{
+  font-family:'Bricolage Grotesque',sans-serif;font-weight:800;
+  font-size:clamp(2.4rem,5.4vw,3.9rem);line-height:1.04;letter-spacing:-.025em;margin-bottom:1.2rem;
+}
+h1 em{font-style:normal;color:var(--magenta)}
+.lede{font-size:1.13rem;color:var(--ink-soft);max-width:34rem;margin-bottom:1.8rem}
+.lede strong{color:var(--ink)}
+
+/* signup form */
+.signup{display:flex;gap:.6rem;max-width:30rem;flex-wrap:wrap}
+.signup input{
+  flex:1 1 220px;padding:.85rem 1.1rem;font-size:1rem;font-family:inherit;
+  border:2px solid var(--ink);border-radius:999px;background:#fff;color:var(--ink);
+}
+.signup input::placeholder{color:#93A0B0}
+.signup .btn{padding:.85rem 1.5rem;font-size:1rem}
+.form-note{font-family:'IBM Plex Mono',monospace;font-size:.72rem;color:var(--ink-soft);margin-top:.7rem;letter-spacing:.04em}
+.form-success{
+  display:none;border:2px solid var(--chart-blue);border-radius:var(--radius);
+  background:#fff;padding:1rem 1.2rem;max-width:30rem;
+}
+.form-success .mono{color:var(--chart-blue);font-size:.75rem;letter-spacing:.14em;font-weight:600}
+.form-success p{margin-top:.3rem;font-size:.95rem;color:var(--ink-soft)}
+
+/* ---------- attitude indicator ---------- */
+.instrument-stack{display:flex;flex-direction:column;align-items:center;gap:18px}
+.ai-outer{
+  width:min(340px,80vw);aspect-ratio:1;border-radius:50%;
+  background:linear-gradient(160deg,#2A3543,#0C1219);
+  padding:8%;
+  box-shadow:0 24px 60px rgba(16,22,30,.35), inset 0 2px 6px rgba(255,255,255,.08);
+  position:relative;
+}
+.ai-face{width:100%;height:100%;border-radius:50%;overflow:hidden;position:relative;border:3px solid #05080C}
+.ai-horizon{
+  position:absolute;inset:-30%;
+  background:linear-gradient(to bottom, var(--sky) 0 50%, var(--ground) 50% 100%);
+  animation:bank 14s ease-in-out infinite;
+}
+.ai-horizon::before{content:"";position:absolute;left:0;right:0;top:50%;height:3px;background:#fff;transform:translateY(-50%)}
+/* pitch ladder */
+.ai-horizon::after{
+  content:"";position:absolute;left:50%;top:50%;width:44%;height:34%;transform:translate(-50%,-50%);
+  background:
+    linear-gradient(#fff,#fff) center calc(50% - 32px)/34% 2px no-repeat,
+    linear-gradient(#fff,#fff) center calc(50% - 16px)/20% 2px no-repeat,
+    linear-gradient(#fff,#fff) center calc(50% + 16px)/20% 2px no-repeat,
+    linear-gradient(#fff,#fff) center calc(50% + 32px)/34% 2px no-repeat;
+  opacity:.9;
+}
+@keyframes bank{
+  0%,100%{transform:rotate(0deg) translateY(0)}
+  25%{transform:rotate(-7deg) translateY(2%)}
+  55%{transform:rotate(5deg) translateY(-2%)}
+  80%{transform:rotate(-3deg) translateY(1%)}
+}
+@media (prefers-reduced-motion: reduce){
+  .ai-horizon{animation:none}
+  *{transition:none!important}
+}
+/* fixed aircraft symbol */
+.ai-wings{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:62%;height:20px;pointer-events:none;z-index:3}
+.ai-wings::before,.ai-wings::after{content:"";position:absolute;top:50%;height:5px;width:34%;background:var(--amber);transform:translateY(-50%);border-radius:3px}
+.ai-wings::before{left:0}.ai-wings::after{right:0}
+.ai-dot{position:absolute;left:50%;top:50%;width:12px;height:12px;background:var(--amber);border-radius:50%;transform:translate(-50%,-50%)}
+.ai-bezel-mark{position:absolute;left:50%;top:4%;width:0;height:0;border-left:8px solid transparent;border-right:8px solid transparent;border-top:12px solid #fff;transform:translateX(-50%);z-index:3}
+.instrument-caption{font-family:'IBM Plex Mono',monospace;font-size:.72rem;letter-spacing:.18em;color:var(--ink-soft);text-align:center}
+
+/* ---------- metar ticker ---------- */
+.ticker{
+  background:var(--panel);color:#CFE3D8;border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);
+  overflow:hidden;white-space:nowrap;padding:.65rem 0;
+}
+.ticker-inner{display:inline-block;animation:scroll 40s linear infinite;font-family:'IBM Plex Mono',monospace;font-size:.82rem;letter-spacing:.1em}
+.ticker-inner span{color:var(--lblue)}
+@keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@media (prefers-reduced-motion: reduce){.ticker-inner{animation:none}}
+
+/* ---------- sections ---------- */
+section{padding:84px 0}
+.sec-head{margin-bottom:44px;max-width:42rem}
+.sec-head h2{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(1.7rem,3.4vw,2.4rem);letter-spacing:-.02em;line-height:1.12;margin-top:.6rem}
+.sec-head p{color:var(--ink-soft);margin-top:.8rem;font-size:1.05rem}
+
+/* checklist: how it works */
+.checklist{
+  border:2px solid var(--ink);border-radius:var(--radius);background:#fff;
+  max-width:760px;overflow:hidden;
+}
+.checklist-title{
+  background:var(--ink);color:var(--paper);font-family:'IBM Plex Mono',monospace;
+  font-size:.78rem;letter-spacing:.2em;padding:.7rem 1.4rem;font-weight:600;
+}
+.check-item{display:flex;align-items:baseline;gap:.9rem;padding:1.25rem 1.4rem;border-top:1px solid var(--paper-deep)}
+.check-item:first-of-type{border-top:none}
+.check-num{font-family:'IBM Plex Mono',monospace;font-weight:600;color:var(--magenta);font-size:.85rem;flex:none;width:1.6rem}
+.check-body{flex:1;min-width:0}
+.check-line{display:flex;align-items:baseline;gap:.5rem}
+.check-line h3{font-family:'Bricolage Grotesque',sans-serif;font-weight:600;font-size:1.08rem;white-space:nowrap}
+.check-dots{flex:1;border-bottom:2px dotted rgba(28,42,58,.35);transform:translateY(-4px);min-width:24px}
+.check-resp{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:.8rem;letter-spacing:.08em;color:var(--chart-blue);white-space:nowrap}
+.check-body p{color:var(--ink-soft);font-size:.95rem;margin-top:.35rem}
+
+/* pricing */
+.tiers{display:grid;gap:28px;align-items:stretch}
+@media(min-width:820px){.tiers{grid-template-columns:1fr 1fr}}
+.tier{
+  border:2px solid var(--ink);border-radius:var(--radius);background:#fff;
+  padding:2rem 1.8rem;display:flex;flex-direction:column;position:relative;
+}
+.tier.batd{background:var(--panel);color:#E9EDF2;border-color:var(--panel)}
+.tier.batd .tier-sub, .tier.batd li{color:#A9B6C4}
+.tier-flag{
+  position:absolute;top:-14px;left:1.6rem;background:var(--magenta);color:#fff;
+  font-family:'IBM Plex Mono',monospace;font-size:.66rem;letter-spacing:.16em;font-weight:600;
+  padding:.3rem .7rem;border-radius:999px;
+}
+.tier h3{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:1.4rem;letter-spacing:-.01em}
+.tier-sub{color:var(--ink-soft);font-size:.93rem;margin-top:.2rem}
+.price{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:2.9rem;letter-spacing:-.03em;margin:1.1rem 0 .1rem}
+.price small{font-size:1rem;font-weight:600;letter-spacing:0;color:var(--ink-soft)}
+.tier.batd .price small{color:#A9B6C4}
+.tier ul{list-style:none;margin:1.2rem 0 1.6rem;display:grid;gap:.6rem}
+.tier li{padding-left:1.5rem;position:relative;font-size:.95rem}
+.tier li::before{content:"";position:absolute;left:0;top:.5em;width:9px;height:9px;border-radius:50%;border:2.5px solid var(--chart-blue)}
+.tier.batd li::before{border-color:var(--lblue)}
+.tier .btn{margin-top:auto;text-align:center}
+.tier.batd .btn{background:var(--magenta);border-color:var(--magenta);color:#fff}
+.tier.batd .btn:hover{background:var(--lblue);border-color:var(--lblue);color:var(--panel)}
+.tier-foot{font-family:'IBM Plex Mono',monospace;font-size:.7rem;letter-spacing:.06em;color:var(--ink-soft);margin-top:2rem;max-width:760px}
+
+/* math strip */
+.math{background:var(--paper-deep);border-top:2px solid var(--ink);border-bottom:2px solid var(--ink)}
+.math-grid{display:grid;gap:32px;text-align:center}
+@media(min-width:760px){.math-grid{grid-template-columns:repeat(3,1fr)}}
+.math-num{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:2.3rem;letter-spacing:-.02em;color:var(--magenta)}
+.math-label{font-size:.92rem;color:var(--ink-soft);max-width:16rem;margin:0 auto}
+
+/* faq */
+.faq{max-width:760px}
+details{border:2px solid var(--ink);border-radius:var(--radius);background:#fff;margin-bottom:14px;overflow:hidden}
+summary{
+  list-style:none;cursor:pointer;padding:1.1rem 1.4rem;font-weight:600;font-size:1rem;
+  display:flex;justify-content:space-between;align-items:center;gap:1rem;
+}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";font-family:'IBM Plex Mono',monospace;font-size:1.2rem;color:var(--magenta);flex:none}
+details[open] summary::after{content:"–"}
+details p{padding:0 1.4rem 1.2rem;color:var(--ink-soft);font-size:.96rem}
+
+/* final cta */
+.final{background:var(--panel);color:#E9EDF2;text-align:center;border-top:2px solid var(--ink)}
+.final h2{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(1.8rem,3.6vw,2.6rem);letter-spacing:-.02em}
+.final p{color:#A9B6C4;margin:.9rem auto 1.8rem;max-width:32rem}
+.final .signup{margin:0 auto;justify-content:center}
+.final .signup input{border-color:transparent}
+.final .signup .btn{background:var(--magenta);border-color:var(--magenta);color:#fff}
+.final .signup .btn:hover{background:var(--lblue);border-color:var(--lblue);color:var(--panel)}
+.final .form-success{margin:0 auto;background:transparent;border-color:var(--lblue)}
+.final .form-success .mono{color:var(--lblue)}
+.final .form-success p{color:#A9B6C4;margin:0.3rem 0 0}
+
+
+/* ---------- rig gallery ---------- */
+.gallery{display:grid;gap:26px}
+@media(min-width:820px){.gallery{grid-template-columns:repeat(3,1fr)}}
+.g-card{border:2px solid var(--ink);border-radius:var(--radius);background:#fff;overflow:hidden;display:flex;flex-direction:column}
+.g-frame{position:relative;aspect-ratio:4/3;background:var(--panel);overflow:hidden}
+.g-frame img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:2}
+.g-ph{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:8%}
+.g-ph svg{width:100%;height:100%}
+.g-cap{display:flex;justify-content:space-between;gap:.8rem;align-items:baseline;padding:.9rem 1.1rem}
+.g-cap h3{font-family:'Bricolage Grotesque',sans-serif;font-weight:600;font-size:1rem}
+.g-cap span{font-family:'IBM Plex Mono',monospace;font-size:.68rem;letter-spacing:.12em;color:var(--chart-blue);white-space:nowrap}
+
+/* ---------- requirements spec sheet ---------- */
+.spec-grid{display:grid;gap:40px;align-items:start}
+@media(min-width:920px){.spec-grid{grid-template-columns:.9fr 1.1fr}}
+.spec-sheet{border:2px solid var(--ink);border-radius:var(--radius);background:#fff;overflow:hidden}
+.spec-title{background:var(--magenta);color:#fff;font-family:'IBM Plex Mono',monospace;font-size:.78rem;letter-spacing:.2em;padding:.7rem 1.4rem;font-weight:600}
+.spec-item{padding:1.05rem 1.4rem;border-top:1px solid var(--paper-deep)}
+.spec-item:first-of-type{border-top:none}
+.spec-line{display:flex;align-items:baseline;gap:.5rem}
+.spec-line h3{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:.8rem;letter-spacing:.1em;white-space:nowrap;color:var(--ink)}
+.spec-line .check-dots{flex:1;border-bottom:2px dotted rgba(26,29,36,.3);transform:translateY(-4px);min-width:24px}
+.spec-line .spec-val{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:.8rem;letter-spacing:.06em;color:var(--magenta);white-space:nowrap}
+.spec-item p{color:var(--ink-soft);font-size:.9rem;margin-top:.3rem}
+.spec-aside h2{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(1.7rem,3.4vw,2.4rem);letter-spacing:-.02em;line-height:1.12;margin-top:.6rem}
+.spec-aside p{color:var(--ink-soft);margin-top:.9rem;font-size:1.03rem}
+.spec-aside .callout{margin-top:1.5rem;border-left:4px solid var(--lblue);padding:.2rem 0 .2rem 1.1rem;font-size:1rem;color:var(--ink)}
+
+footer{background:var(--panel);color:#7A8794;border-top:1px solid var(--panel-edge);padding:2rem 0}
+.foot{display:flex;flex-wrap:wrap;gap:1rem;justify-content:space-between;align-items:center;font-size:.85rem}
+.foot .mono{font-size:.7rem;letter-spacing:.14em}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap bar">
+    <a class="wordmark" href="#top"><span class="tick" aria-hidden="true"></span>SIMCRATE</a>
+    <div class="bar-tag">DFW LAUNCH · FALL 2026 · RIGS LIMITED</div>
+    <a class="btn" href="#waitlist">Join the waitlist</a>
+  </div>
+</header>
+
+<main id="top">
+
+<!-- HERO -->
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="eyebrow">HOME FLIGHT SIMULATOR RENTALS</div>
+      <h1>The sim comes to you. <em>Fly every night.</em></h1>
+      <p class="lede">Rent a complete flight simulator by the month, delivered and set up in your home, configured to match your training aircraft. <strong>No $5,000 purchase. No airport scheduling. No commitment past your checkride.</strong></p>
+      <form class="signup" id="hero-form" novalidate>
+        <label for="hero-email" class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Email address</label>
+        <input type="email" id="hero-email" name="email" placeholder="you@example.com" required autocomplete="email">
+        <button class="btn" type="submit">Get launch access</button>
+      </form>
+      <div class="form-success" id="hero-success" role="status">
+        <span class="mono">READBACK CORRECT</span>
+        <p>You're on the manifest. We'll email you when rigs open up in DFW.</p>
+      </div>
+      <p class="form-note">LAUNCHING IN DALLAS FORT WORTH · FIRST 50 RIGS GET FOUNDING RATES</p>
+    </div>
+    <div class="instrument-stack" aria-hidden="true">
+      <div class="ai-outer">
+        <div class="ai-face">
+          <div class="ai-horizon"></div>
+          <div class="ai-bezel-mark"></div>
+          <div class="ai-wings"></div>
+          <div class="ai-dot"></div>
+        </div>
+      </div>
+      <div class="instrument-caption">ATTITUDE: PRACTICE DAILY</div>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-inner">
+    SIMCRATE INFO <span>DFW</span> · STANDARD RIG <span>$249/MO</span> · BATD PRO <span>$379/MO</span> · DELIVERY + SETUP <span>45 MIN</span> · CONFIGURED TO <span>C172 · PA28 · DA40</span> · IFR CURRENCY <span>LOGGABLE ON BATD</span> · PICKUP WHEN TRAINING ENDS <span>NO STRINGS</span> ·&nbsp;
+    SIMCRATE INFO <span>DFW</span> · STANDARD RIG <span>$249/MO</span> · BATD PRO <span>$379/MO</span> · DELIVERY + SETUP <span>45 MIN</span> · CONFIGURED TO <span>C172 · PA28 · DA40</span> · IFR CURRENCY <span>LOGGABLE ON BATD</span> · PICKUP WHEN TRAINING ENDS <span>NO STRINGS</span> ·&nbsp;
+  </div>
+</div>
+
+
+<!-- THE RIG -->
+<section id="rig" style="padding-bottom:40px">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">THE RIG</div>
+      <h2>What shows up at your door.</h2>
+      <p>Not a joystick and a laptop. A full physical cockpit: yoke, throttle quadrant, rudder pedals, avionics panel, and a dedicated flight computer, assembled and tested before delivery.</p>
+    </div>
+    <div class="gallery">
+      <div class="g-card">
+        <div class="g-frame">
+          <div class="g-ph" aria-hidden="true">
+            <svg viewBox="0 0 400 300" fill="none" stroke="#8FC6E8" stroke-width="2">
+              <rect x="40" y="190" width="320" height="8"/>
+              <line x1="70" y1="198" x2="70" y2="270"/><line x1="330" y1="198" x2="330" y2="270"/>
+              <rect x="120" y="70" width="160" height="100" rx="4"/>
+              <line x1="200" y1="170" x2="200" y2="190"/><line x1="170" y1="190" x2="230" y2="190"/>
+              <path d="M150 215 a18 10 0 0 1 36 0" /><line x1="168" y1="198" x2="168" y2="212"/>
+              <rect x="240" y="205" width="46" height="26" rx="3"/>
+              <line x1="252" y1="205" x2="252" y2="195"/><line x1="264" y1="205" x2="264" y2="193"/><line x1="276" y1="205" x2="276" y2="195"/>
+              <rect x="120" y="255" width="70" height="14" rx="3"/><rect x="210" y="255" width="70" height="14" rx="3"/>
+              <path d="M130 100 h60 M130 115 h40" stroke="#DA291C"/>
+              <text x="200" y="45" text-anchor="middle" fill="#8FC6E8" stroke="none" font-family="IBM Plex Mono, monospace" font-size="12" letter-spacing="3">STANDARD RIG</text>
+            </svg>
+          </div>
+          <img src="images/rig-standard.jpg" alt="SimCrate Standard rig set up on a desk in a home office" onerror="this.style.display='none'">
+        </div>
+        <div class="g-cap"><h3>Standard rig, installed</h3><span>YOUR HOME OFFICE</span></div>
+      </div>
+      <div class="g-card">
+        <div class="g-frame">
+          <div class="g-ph" aria-hidden="true">
+            <svg viewBox="0 0 400 300" fill="none" stroke="#8FC6E8" stroke-width="2">
+              <rect x="60" y="50" width="280" height="180" rx="8"/>
+              <circle cx="120" cy="105" r="26"/><circle cx="185" cy="105" r="26"/><circle cx="250" cy="105" r="26"/>
+              <line x1="120" y1="105" x2="120" y2="87"/><line x1="185" y1="105" x2="200" y2="95"/><line x1="250" y1="105" x2="240" y2="90"/>
+              <rect x="290" y="70" width="36" height="120" rx="4"/>
+              <line x1="296" y1="90" x2="320" y2="90"/><line x1="296" y1="110" x2="320" y2="110" stroke="#DA291C"/><line x1="296" y1="130" x2="320" y2="130"/>
+              <rect x="90" y="150" width="186" height="56" rx="4"/>
+              <path d="M110 178 h60 M110 192 h40" stroke="#DA291C"/>
+              <text x="200" y="270" text-anchor="middle" fill="#8FC6E8" stroke="none" font-family="IBM Plex Mono, monospace" font-size="12" letter-spacing="3">FAA-APPROVED PANEL</text>
+            </svg>
+          </div>
+          <img src="images/rig-batd.jpg" alt="Close-up of the BATD Pro instrument panel and avionics" onerror="this.style.display='none'">
+        </div>
+        <div class="g-cap"><h3>BATD Pro panel</h3><span>LOGGABLE TIME</span></div>
+      </div>
+      <div class="g-card">
+        <div class="g-frame">
+          <div class="g-ph" aria-hidden="true">
+            <svg viewBox="0 0 400 300" fill="none" stroke="#8FC6E8" stroke-width="2">
+              <rect x="60" y="120" width="200" height="110" rx="6"/>
+              <rect x="260" y="150" width="80" height="80" rx="6"/>
+              <circle cx="110" cy="245" r="16"/><circle cx="225" cy="245" r="16"/><circle cx="300" cy="245" r="14"/>
+              <line x1="60" y1="150" x2="260" y2="150"/>
+              <path d="M140 90 l30 -25 l30 25" stroke="#DA291C"/><line x1="170" y1="65" x2="170" y2="120" stroke="#DA291C"/>
+              <text x="200" y="45" text-anchor="middle" fill="#8FC6E8" stroke="none" font-family="IBM Plex Mono, monospace" font-size="12" letter-spacing="3">DELIVERY DAY</text>
+            </svg>
+          </div>
+          <img src="images/rig-delivery.jpg" alt="SimCrate technician delivering and setting up a rig" onerror="this.style.display='none'">
+        </div>
+        <div class="g-cap"><h3>Delivered and tested</h3><span>45-MIN SETUP</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="how">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">HOW IT WORKS</div>
+      <h2>Three items. Then you're flying.</h2>
+      <p>Every extra hour in the airplane costs $180 to $250. The students who finish fastest are the ones who chair-fly procedures between lessons. We make that a subscription instead of a purchase.</p>
+    </div>
+    <div class="checklist">
+      <div class="checklist-title">PRE-FLIGHT · SIMCRATE SETUP CHECKLIST</div>
+      <div class="check-item">
+        <div class="check-num">1</div>
+        <div class="check-body">
+          <div class="check-line"><h3>Pick your panel</h3><span class="check-dots"></span><span class="check-resp">SET</span></div>
+          <p>Tell us what you train in. We configure the sim to your school's aircraft and avionics, steam gauges or glass, before it ever leaves our shop.</p>
+        </div>
+      </div>
+      <div class="check-item">
+        <div class="check-num">2</div>
+        <div class="check-body">
+          <div class="check-line"><h3>We deliver and install</h3><span class="check-dots"></span><span class="check-resp">45 MIN</span></div>
+          <p>A technician brings the full rig: yoke, throttle quadrant, rudder pedals, avionics panel, monitor, and stand. Set up, tested, and a first flight walkthrough before we leave.</p>
+        </div>
+      </div>
+      <div class="check-item">
+        <div class="check-num">3</div>
+        <div class="check-body">
+          <div class="check-line"><h3>Fly until the checkride</h3><span class="check-dots"></span><span class="check-resp">UNLIMITED</span></div>
+          <p>Practice every night. Remote support if anything acts up, and a hot swap within 48 hours if we can't fix it. Done training? We pick it up. That's it.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">TWO RIGS</div>
+      <h2>Pick the rig that matches your rating.</h2>
+    </div>
+    <div class="tiers">
+      <div class="tier">
+        <h3>Standard</h3>
+        <p class="tier-sub">For private pilot students building procedure fluency.</p>
+        <div class="price">$249<small>/month</small></div>
+        <ul>
+          <li>Full physical cockpit: yoke, throttle quadrant, rudder pedals, avionics panel</li>
+          <li>Configured to your trainer: C172, PA28, DA40, and more</li>
+          <li>X-Plane or MSFS, pre-installed and tuned</li>
+          <li>Delivery, setup, and pickup included in service area</li>
+          <li>Remote support and 48-hour hot swap</li>
+        </ul>
+        <a class="btn btn-ghost" href="#waitlist">Join the waitlist</a>
+      </div>
+      <div class="tier batd">
+        <div class="tier-flag">FAA-APPROVED · LOGGABLE</div>
+        <h3>BATD Pro</h3>
+        <p class="tier-sub">For instrument students and IFR pilots staying current.</p>
+        <div class="price">$379<small>/month</small></div>
+        <ul>
+          <li>FAA-approved Basic Aviation Training Device</li>
+          <li>Log up to 10 hours toward your instrument rating with your CFII</li>
+          <li>Instrument currency at home, no instructor required</li>
+          <li>Current nav database maintained by us, always LOA compliant</li>
+          <li>Everything in Standard, including delivery and support</li>
+        </ul>
+        <a class="btn" href="#waitlist">Join the waitlist</a>
+      </div>
+    </div>
+    <p class="tier-foot">ONE-TIME DELIVERY AND SETUP FEE: $149 · MONTH-TO-MONTH AFTER THE FIRST MONTH · DAMAGE WAIVER AVAILABLE · FOUNDING-RATE PRICING FOR THE FIRST 50 DFW RIGS</p>
+  </div>
+</section>
+
+<!-- MATH -->
+<section class="math">
+  <div class="wrap math-grid">
+    <div>
+      <div class="math-num">$200+</div>
+      <p class="math-label">Cost of one aircraft hour with an instructor. Save three hours over your training and the rig paid for itself.</p>
+    </div>
+    <div>
+      <div class="math-num">61 to 75</div>
+      <p class="math-label">Hours the average student takes to finish a 40-hour-minimum private certificate. The gap is decay between lessons.</p>
+    </div>
+    <div>
+      <div class="math-num">0</div>
+      <p class="math-label">Dollars of hardware you have to buy, set up, or resell when training ends.</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- REQUIREMENTS -->
+<section id="requirements" style="padding-top:40px">
+  <div class="wrap spec-grid">
+    <div class="spec-aside">
+      <div class="eyebrow">WHAT YOU NEED AT HOME</div>
+      <h2>If it fits a desktop computer, it fits SimCrate.</h2>
+      <p>No special wiring, no dedicated room, no gaming PC of your own. Here is the complete list of what we need from your end, checked during your 5-minute booking call so delivery day has zero surprises.</p>
+      <div class="callout">Missing something? Tell us at booking. We carry desk risers, pedal mats, and extension solutions on the truck.</div>
+    </div>
+    <div class="spec-sheet">
+      <div class="spec-title">CUSTOMER REQUIREMENTS · SPEC SHEET</div>
+      <div class="spec-item">
+        <div class="spec-line"><h3>DESK OR TABLE</h3><span class="check-dots"></span><span class="spec-val">48 IN WIDE MIN</span></div>
+        <p>Any sturdy desk or table at least 48 inches wide and 24 inches deep with a straight front edge. The yoke clamps under the edge; no drilling, no marks.</p>
+      </div>
+      <div class="spec-item">
+        <div class="spec-line"><h3>CLEAR SPACE</h3><span class="check-dots"></span><span class="spec-val">5 FT x 5 FT</span></div>
+        <p>Room for the desk, your chair, and rudder pedals on the floor in front of you. A corner of a bedroom, office, or garage is plenty.</p>
+      </div>
+      <div class="spec-item">
+        <div class="spec-line"><h3>POWER</h3><span class="check-dots"></span><span class="spec-val">1 STANDARD OUTLET</span></div>
+        <p>One regular 120V wall outlet within 6 feet. The whole rig draws about 350 watts, less than a microwave. We bring the surge protector.</p>
+      </div>
+      <div class="spec-item">
+        <div class="spec-line"><h3>INTERNET</h3><span class="check-dots"></span><span class="spec-val">25 MBPS · WIFI OK</span></div>
+        <p>Used for scenery data, nav database updates, and remote support. The sim itself flies fine offline, so an internet outage never cancels a session.</p>
+      </div>
+      <div class="spec-item">
+        <div class="spec-line"><h3>FLOOR</h3><span class="check-dots"></span><span class="spec-val">ANY · MAT INCLUDED</span></div>
+        <p>Rudder pedals grip best on hard floor. On carpet, the anti-slide mat we include keeps them planted.</p>
+      </div>
+      <div class="spec-item">
+        <div class="spec-line"><h3>CHAIR</h3><span class="check-dots"></span><span class="spec-val">YOURS</span></div>
+        <p>Any desk chair works. Lock the wheels or use the mat if it rolls. That's the entire list.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">QUESTIONS</div>
+      <h2>Straight answers.</h2>
+    </div>
+    <div class="faq">
+      <details>
+        <summary>Can I log the time?</summary>
+        <p>On the BATD Pro, yes. It's an FAA-approved Basic Aviation Training Device: up to 10 hours toward the instrument rating with your CFII, 2.5 hours toward the private certificate, and instrument currency for rated pilots with no instructor required. The Standard rig is for proficiency practice and isn't loggable, which is exactly how most students use a sim anyway.</p>
+      </details>
+      <details>
+        <summary>Will it match the airplane I actually train in?</summary>
+        <p>That's the point. Tell us your school and aircraft and we deliver the rig configured to it: the same avionics layout, the same performance profile, steam gauges or glass. Practice at home transfers to the airplane because it looks and behaves like the airplane.</p>
+      </details>
+      <details>
+        <summary>What if something breaks?</summary>
+        <p>Remote support fixes most software issues same-day. If hardware fails and we can't fix it remotely, we swap the rig within 48 hours. Normal wear is on us. A damage waiver is available at signup for everything else.</p>
+      </details>
+      <details>
+        <summary>What do I need at home for it to work?</summary>
+        <p>Four things: a sturdy desk at least 48 inches wide, about 5 by 5 feet of clear space, one standard wall outlet (the rig draws about 350W), and internet of 25 Mbps or better for updates and remote support. The sim runs offline, so spotty internet never grounds you. No special wiring, no gaming PC, no tools. Full details in the spec sheet above, and we confirm everything on a 5-minute call before delivery.</p>
+      </details>
+      <details>
+        <summary>Is there a contract?</summary>
+        <p>Month-to-month after the first month. When you pass your checkride, or life happens, we schedule a pickup and billing stops. No cancellation fees, no remaining-term buyout.</p>
+      </details>
+      <details>
+        <summary>Where is this available?</summary>
+        <p>We're launching in Dallas Fort Worth in fall 2026 with a limited first fleet. Join the waitlist and we'll reach out in order as rigs become available. Outside DFW? Join anyway, shipped rigs are on the roadmap and the waitlist tells us where to go next.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final" id="waitlist">
+  <div class="wrap">
+    <div class="eyebrow" style="color:var(--lblue)">CLEARED AS FILED</div>
+    <h2>Founding rates for the first 50 rigs.</h2>
+    <p>Join the waitlist and lock in launch pricing. We'll email you when your rig is ready to schedule, and never for anything else.</p>
+    <form class="signup" id="cta-form" novalidate>
+      <label for="cta-email" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Email address</label>
+      <input type="email" id="cta-email" name="email" placeholder="you@example.com" required autocomplete="email">
+      <button class="btn" type="submit">Get launch access</button>
+    </form>
+    <div class="form-success" id="cta-success" role="status">
+      <span class="mono">READBACK CORRECT</span>
+      <p>You're on the manifest. Talk soon.</p>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <div class="mono">SIMCRATE · DALLAS FORT WORTH</div>
+    <div>Built by pilots, for the ones still counting hours.</div>
+    <div class="mono">© 2026 SIMCRATE</div>
+  </div>
+</footer>
+
+<script>
+// ---- Email capture ----
+// TODO before launch: replace the handler below with a real endpoint.
+// Easiest options: Formspree (form action="https://formspree.io/f/YOUR_ID" method="POST")
+// or a Firebase Cloud Function writing to Firestore, same stack as DineScores.
+function wireForm(formId, successId){
+  const form = document.getElementById(formId);
+  const success = document.getElementById(successId);
+  form.addEventListener("submit", function(e){
+    e.preventDefault();
+    const email = form.querySelector("input[type=email]");
+    if(!email.value || !email.checkValidity()){
+      email.focus();
+      email.style.borderColor = "#DA291C";
+      return;
+    }
+    // Placeholder: swap for fetch() to your endpoint
+    console.log("Waitlist signup:", email.value);
+    form.style.display = "none";
+    success.style.display = "block";
+  });
+}
+wireForm("hero-form","hero-success");
+wireForm("cta-form","cta-success");
+</script>
+
+</body>
+</html>
