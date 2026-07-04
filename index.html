@@ -410,11 +410,9 @@ footer{background:var(--panel);color:#7A8794;border-top:1px solid var(--panel-ed
       <div class="eyebrow">HOME FLIGHT SIMULATOR RENTALS</div>
       <h1>The sim comes to you. <em>Fly every night.</em></h1>
       <p class="lede">Rent a complete flight simulator by the month, delivered and set up in your home, configured to match your training aircraft. <strong>No $5,000 purchase. No airport scheduling. No commitment past your checkride.</strong></p>
-      <form class="signup" id="hero-form" novalidate>
-        <label for="hero-email" class="sr-only">Email address</label>
-        <input type="email" id="hero-email" name="email" placeholder="you@example.com" required autocomplete="email" inputmode="email" aria-describedby="hero-error">
-        <button class="btn" type="submit">Get launch access</button>
-      </form>
+      <div class="signup" id="hero-form">
+        <a class="btn" href="https://docs.google.com/forms/d/e/1FAIpQLSesdxMihb2QG5hOZouwndLTJOLGW2zTrAAiqx1grpyh4nLH-g/viewform" target="_blank" rel="noopener">Get launch access</a>
+      </div>
       <p class="form-error" id="hero-error" hidden>Enter a valid email address so we can reach you.</p>
       <div class="form-success" id="hero-success" role="status">
         <span class="mono">READBACK CORRECT</span>
@@ -687,11 +685,9 @@ footer{background:var(--panel);color:#7A8794;border-top:1px solid var(--panel-ed
     <div class="eyebrow" style="color:var(--lblue)">CLEARED AS FILED</div>
     <h2>Founding rates for the first 50 rigs.</h2>
     <p>Join the waitlist and lock in launch pricing. We'll email you when your rig is ready to schedule, and never for anything else.</p>
-    <form class="signup" id="cta-form" novalidate>
-      <label for="cta-email" class="sr-only">Email address</label>
-      <input type="email" id="cta-email" name="email" placeholder="you@example.com" required autocomplete="email" inputmode="email" aria-describedby="cta-error">
-      <button class="btn" type="submit">Get launch access</button>
-    </form>
+    <div class="signup" id="cta-form">
+      <a class="btn" href="https://docs.google.com/forms/d/e/1FAIpQLSesdxMihb2QG5hOZouwndLTJOLGW2zTrAAiqx1grpyh4nLH-g/viewform" target="_blank" rel="noopener">Get launch access</a>
+    </div>
     <p class="form-error" id="cta-error" hidden>Enter a valid email address so we can reach you.</p>
     <div class="form-success" id="cta-success" role="status">
       <span class="mono">READBACK CORRECT</span>
@@ -712,37 +708,9 @@ footer{background:var(--panel);color:#7A8794;border-top:1px solid var(--panel-ed
 
 <script>
 // ---- Email capture ----
-// TODO before launch: replace the handler below with a real endpoint.
-// Easiest options: Formspree (form action="https://formspree.io/f/YOUR_ID" method="POST")
-// or a Firebase Cloud Function writing to Firestore, same stack as DineScores.
-function wireForm(formId, successId, errorId){
-  const form = document.getElementById(formId);
-  const success = document.getElementById(successId);
-  const error = document.getElementById(errorId);
-  const email = form.querySelector("input[type=email]");
-  email.addEventListener("input", function(){
-    email.classList.remove("input-error");
-    email.removeAttribute("aria-invalid");
-    error.hidden = true;
-  });
-  form.addEventListener("submit", function(e){
-    e.preventDefault();
-    if(!email.value || !email.checkValidity()){
-      email.classList.add("input-error");
-      email.setAttribute("aria-invalid", "true");
-      error.hidden = false;
-      email.focus();
-      return;
-    }
-    // Placeholder: swap for fetch() to your endpoint
-    console.log("Waitlist signup:", email.value);
-    form.style.display = "none";
-    error.hidden = true;
-    success.style.display = "block";
-  });
-}
-wireForm("hero-form","hero-success","hero-error");
-wireForm("cta-form","cta-success","cta-error");
+// Waitlist signup is handled by a hosted Google Form.
+// Both #hero-form and #cta-form now render a link (a.btn) to the form,
+// and responses flow into the linked "SimCrate Waitlist Responses" spreadsheet.
 </script>
 
 </body>
