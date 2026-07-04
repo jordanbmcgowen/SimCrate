@@ -5,9 +5,116 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SimCrate | Home Flight Simulator Rentals for Student Pilots</title>
 <meta name="description" content="Rent a complete home flight simulator by the month. Delivered, set up, and configured to your training aircraft. Launching in Dallas Fort Worth.">
+<meta name="robots" content="index, follow">
+<meta name="author" content="SimCrate">
+<meta name="theme-color" content="#1A1D24">
+<meta name="color-scheme" content="light">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="SimCrate">
+<meta property="og:title" content="SimCrate | Home Flight Simulator Rentals for Student Pilots">
+<meta property="og:description" content="Rent a complete home flight simulator by the month. Delivered, set up, and configured to your training aircraft. Launching in Dallas Fort Worth.">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="SimCrate | Home Flight Simulator Rentals for Student Pilots">
+<meta name="twitter:description" content="Rent a complete home flight simulator by the month. Delivered, set up, and configured to your training aircraft. Launching in Dallas Fort Worth.">
+<!-- TODO before launch: once the production domain is live, add
+     <link rel="canonical" href="https://YOURDOMAIN/">, og:url, and an og:image (1200x630). -->
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='19' r='10' fill='none' stroke='%23DA291C' stroke-width='4'/%3E%3Crect x='14' y='1' width='4' height='8' rx='1' fill='%23DA291C'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "name": "SimCrate",
+      "description": "Home flight simulator rentals for student pilots. Complete physical rigs delivered, set up, and configured to your training aircraft, by the month.",
+      "areaServed": {
+        "@type": "Place",
+        "name": "Dallas–Fort Worth, Texas"
+      }
+    },
+    {
+      "@type": "Service",
+      "name": "Home Flight Simulator Rental",
+      "serviceType": "Flight simulator rental",
+      "provider": { "@type": "Organization", "name": "SimCrate" },
+      "areaServed": { "@type": "Place", "name": "Dallas–Fort Worth, Texas" },
+      "offers": [
+        {
+          "@type": "Offer",
+          "name": "Standard",
+          "description": "Full physical cockpit configured to your trainer, for private pilot students building procedure fluency. Delivery, setup, pickup, and support included.",
+          "price": "249",
+          "priceCurrency": "USD"
+        },
+        {
+          "@type": "Offer",
+          "name": "BATD Pro",
+          "description": "FAA-approved Basic Aviation Training Device for instrument students and IFR pilots. Loggable time and instrument currency at home.",
+          "price": "379",
+          "priceCurrency": "USD"
+        }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Can I log the time?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "On the BATD Pro, yes. It's an FAA-approved Basic Aviation Training Device: up to 10 hours toward the instrument rating with your CFII, 2.5 hours toward the private certificate, and instrument currency for rated pilots with no instructor required. The Standard rig is for proficiency practice and isn't loggable, which is exactly how most students use a sim anyway."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Will it match the airplane I actually train in?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "That's the point. Tell us your school and aircraft and we deliver the rig configured to it: the same avionics layout, the same performance profile, steam gauges or glass. Practice at home transfers to the airplane because it looks and behaves like the airplane."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What if something breaks?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Remote support fixes most software issues same-day. If hardware fails and we can't fix it remotely, we swap the rig within 48 hours. Normal wear is on us. A damage waiver is available at signup for everything else."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What do I need at home for it to work?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Four things: a sturdy desk at least 48 inches wide, about 5 by 5 feet of clear space, one standard wall outlet (the rig draws about 350W), and internet of 25 Mbps or better for updates and remote support. The sim runs offline, so spotty internet never grounds you. No special wiring, no gaming PC, no tools."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is there a contract?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Month-to-month after the first month. When you pass your checkride, or life happens, we schedule a pickup and billing stops. No cancellation fees, no remaining-term buyout."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Where is this available?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "We're launching in Dallas Fort Worth in fall 2026 with a limited first fleet. Join the waitlist and we'll reach out in order as rigs become available. Outside DFW? Join anyway, shipped rigs are on the roadmap and the waitlist tells us where to go next."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
 <style>
 :root{
   --paper:#FFFFFF;
@@ -26,6 +133,7 @@
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
+[id]{scroll-margin-top:84px}
 body{
   font-family:'Inter',sans-serif;
   background:var(--paper);
@@ -38,6 +146,9 @@ body{
 .wrap{max-width:1100px;margin:0 auto;padding:0 24px}
 a{color:inherit}
 button{font-family:inherit;cursor:pointer}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+.skip-link{position:absolute;left:-9999px;top:0;z-index:100;background:var(--ink);color:var(--paper);font-weight:600;padding:.7rem 1.2rem;border-radius:0 0 10px 0;text-decoration:none}
+.skip-link:focus{left:0}
 
 /* ---------- top bar ---------- */
 header{
@@ -49,8 +160,10 @@ header{
 .wordmark{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:1.35rem;letter-spacing:-.02em;text-decoration:none;display:flex;align-items:center;gap:.55rem}
 .wordmark .tick{width:14px;height:14px;border:2.5px solid var(--magenta);border-radius:50%;position:relative;flex:none}
 .wordmark .tick::after{content:"";position:absolute;left:50%;top:-7px;width:2.5px;height:6px;background:var(--magenta);transform:translateX(-50%)}
-.bar-tag{font-family:'IBM Plex Mono',monospace;font-size:.72rem;letter-spacing:.12em;color:var(--chart-blue);display:none}
-@media(min-width:720px){.bar-tag{display:block}}
+.bar-nav{display:none;align-items:center;gap:1.5rem}
+.bar-nav a{font-family:'IBM Plex Mono',monospace;font-size:.72rem;letter-spacing:.12em;font-weight:600;color:var(--ink-soft);text-decoration:none}
+.bar-nav a:hover{color:var(--magenta)}
+@media(min-width:720px){.bar-nav{display:flex}}
 .btn{
   display:inline-block;border:2px solid var(--ink);background:var(--ink);color:var(--paper);
   font-weight:600;font-size:.92rem;padding:.6rem 1.25rem;border-radius:999px;text-decoration:none;
@@ -82,6 +195,9 @@ h1 em{font-style:normal;color:var(--magenta)}
 }
 .signup input::placeholder{color:#93A0B0}
 .signup .btn{padding:.85rem 1.5rem;font-size:1rem}
+.signup input.input-error{border-color:var(--magenta)}
+.form-error{color:var(--magenta);font-weight:600;font-size:.88rem;margin-top:.6rem}
+.final .form-error{color:#FFA097}
 .form-note{font-family:'IBM Plex Mono',monospace;font-size:.72rem;color:var(--ink-soft);margin-top:.7rem;letter-spacing:.04em}
 .form-success{
   display:none;border:2px solid var(--chart-blue);border-radius:var(--radius);
@@ -146,6 +262,12 @@ h1 em{font-style:normal;color:var(--magenta)}
 
 /* ---------- sections ---------- */
 section{padding:84px 0}
+@media(max-width:719px){
+  section{padding:56px 0}
+  .hero{padding:48px 0 32px}
+  .bar .btn{padding:.5rem 1rem;font-size:.85rem}
+  .signup input,.signup .btn{flex:1 1 100%}
+}
 .sec-head{margin-bottom:44px;max-width:42rem}
 .sec-head h2{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(1.7rem,3.4vw,2.4rem);letter-spacing:-.02em;line-height:1.12;margin-top:.6rem}
 .sec-head p{color:var(--ink-soft);margin-top:.8rem;font-size:1.05rem}
@@ -264,10 +386,17 @@ footer{background:var(--panel);color:#7A8794;border-top:1px solid var(--panel-ed
 </head>
 <body>
 
+<a class="skip-link" href="#top">Skip to content</a>
+
 <header>
   <div class="wrap bar">
     <a class="wordmark" href="#top"><span class="tick" aria-hidden="true"></span>SIMCRATE</a>
-    <div class="bar-tag">DFW LAUNCH · FALL 2026 · RIGS LIMITED</div>
+    <nav class="bar-nav" aria-label="Primary">
+      <a href="#rig">THE RIG</a>
+      <a href="#how">HOW IT WORKS</a>
+      <a href="#pricing">PRICING</a>
+      <a href="#faq">FAQ</a>
+    </nav>
     <a class="btn" href="#waitlist">Join the waitlist</a>
   </div>
 </header>
@@ -282,10 +411,11 @@ footer{background:var(--panel);color:#7A8794;border-top:1px solid var(--panel-ed
       <h1>The sim comes to you. <em>Fly every night.</em></h1>
       <p class="lede">Rent a complete flight simulator by the month, delivered and set up in your home, configured to match your training aircraft. <strong>No $5,000 purchase. No airport scheduling. No commitment past your checkride.</strong></p>
       <form class="signup" id="hero-form" novalidate>
-        <label for="hero-email" class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Email address</label>
-        <input type="email" id="hero-email" name="email" placeholder="you@example.com" required autocomplete="email">
+        <label for="hero-email" class="sr-only">Email address</label>
+        <input type="email" id="hero-email" name="email" placeholder="you@example.com" required autocomplete="email" inputmode="email" aria-describedby="hero-error">
         <button class="btn" type="submit">Get launch access</button>
       </form>
+      <p class="form-error" id="hero-error" hidden>Enter a valid email address so we can reach you.</p>
       <div class="form-success" id="hero-success" role="status">
         <span class="mono">READBACK CORRECT</span>
         <p>You're on the manifest. We'll email you when rigs open up in DFW.</p>
@@ -340,7 +470,7 @@ footer{background:var(--panel);color:#7A8794;border-top:1px solid var(--panel-ed
               <text x="200" y="45" text-anchor="middle" fill="#8FC6E8" stroke="none" font-family="IBM Plex Mono, monospace" font-size="12" letter-spacing="3">STANDARD RIG</text>
             </svg>
           </div>
-          <img src="images/rig-standard.jpg" alt="SimCrate Standard rig set up on a desk in a home office" onerror="this.style.display='none'">
+          <img src="images/rig-standard.jpg" alt="SimCrate Standard rig set up on a desk in a home office" loading="lazy" decoding="async" onerror="this.style.display='none'">
         </div>
         <div class="g-cap"><h3>Standard rig, installed</h3><span>YOUR HOME OFFICE</span></div>
       </div>
@@ -358,7 +488,7 @@ footer{background:var(--panel);color:#7A8794;border-top:1px solid var(--panel-ed
               <text x="200" y="270" text-anchor="middle" fill="#8FC6E8" stroke="none" font-family="IBM Plex Mono, monospace" font-size="12" letter-spacing="3">FAA-APPROVED PANEL</text>
             </svg>
           </div>
-          <img src="images/rig-batd.jpg" alt="Close-up of the BATD Pro instrument panel and avionics" onerror="this.style.display='none'">
+          <img src="images/rig-batd.jpg" alt="Close-up of the BATD Pro instrument panel and avionics" loading="lazy" decoding="async" onerror="this.style.display='none'">
         </div>
         <div class="g-cap"><h3>BATD Pro panel</h3><span>LOGGABLE TIME</span></div>
       </div>
@@ -374,7 +504,7 @@ footer{background:var(--panel);color:#7A8794;border-top:1px solid var(--panel-ed
               <text x="200" y="45" text-anchor="middle" fill="#8FC6E8" stroke="none" font-family="IBM Plex Mono, monospace" font-size="12" letter-spacing="3">DELIVERY DAY</text>
             </svg>
           </div>
-          <img src="images/rig-delivery.jpg" alt="SimCrate technician delivering and setting up a rig" onerror="this.style.display='none'">
+          <img src="images/rig-delivery.jpg" alt="SimCrate technician delivering and setting up a rig" loading="lazy" decoding="async" onerror="this.style.display='none'">
         </div>
         <div class="g-cap"><h3>Delivered and tested</h3><span>45-MIN SETUP</span></div>
       </div>
@@ -558,10 +688,11 @@ footer{background:var(--panel);color:#7A8794;border-top:1px solid var(--panel-ed
     <h2>Founding rates for the first 50 rigs.</h2>
     <p>Join the waitlist and lock in launch pricing. We'll email you when your rig is ready to schedule, and never for anything else.</p>
     <form class="signup" id="cta-form" novalidate>
-      <label for="cta-email" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Email address</label>
-      <input type="email" id="cta-email" name="email" placeholder="you@example.com" required autocomplete="email">
+      <label for="cta-email" class="sr-only">Email address</label>
+      <input type="email" id="cta-email" name="email" placeholder="you@example.com" required autocomplete="email" inputmode="email" aria-describedby="cta-error">
       <button class="btn" type="submit">Get launch access</button>
     </form>
+    <p class="form-error" id="cta-error" hidden>Enter a valid email address so we can reach you.</p>
     <div class="form-success" id="cta-success" role="status">
       <span class="mono">READBACK CORRECT</span>
       <p>You're on the manifest. Talk soon.</p>
@@ -584,25 +715,34 @@ footer{background:var(--panel);color:#7A8794;border-top:1px solid var(--panel-ed
 // TODO before launch: replace the handler below with a real endpoint.
 // Easiest options: Formspree (form action="https://formspree.io/f/YOUR_ID" method="POST")
 // or a Firebase Cloud Function writing to Firestore, same stack as DineScores.
-function wireForm(formId, successId){
+function wireForm(formId, successId, errorId){
   const form = document.getElementById(formId);
   const success = document.getElementById(successId);
+  const error = document.getElementById(errorId);
+  const email = form.querySelector("input[type=email]");
+  email.addEventListener("input", function(){
+    email.classList.remove("input-error");
+    email.removeAttribute("aria-invalid");
+    error.hidden = true;
+  });
   form.addEventListener("submit", function(e){
     e.preventDefault();
-    const email = form.querySelector("input[type=email]");
     if(!email.value || !email.checkValidity()){
+      email.classList.add("input-error");
+      email.setAttribute("aria-invalid", "true");
+      error.hidden = false;
       email.focus();
-      email.style.borderColor = "#DA291C";
       return;
     }
     // Placeholder: swap for fetch() to your endpoint
     console.log("Waitlist signup:", email.value);
     form.style.display = "none";
+    error.hidden = true;
     success.style.display = "block";
   });
 }
-wireForm("hero-form","hero-success");
-wireForm("cta-form","cta-success");
+wireForm("hero-form","hero-success","hero-error");
+wireForm("cta-form","cta-success","cta-error");
 </script>
 
 </body>

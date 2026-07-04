@@ -18,7 +18,16 @@ FAQ, and a waitlist signup.
 | File         | Purpose                                            |
 | ------------ | -------------------------------------------------- |
 | `index.html` | The entire landing page (HTML, CSS, and JS inline) |
+| `robots.txt` | Crawler directives (sitemap TODO once domain is live) |
 | `images/`    | Rig photos referenced by the gallery (optional)    |
+
+## SEO
+
+The page ships with Open Graph and Twitter Card meta tags, an inline SVG
+favicon, and JSON-LD structured data (Organization, Service with both pricing
+offers, and FAQPage matching the on-page FAQ). Once the production domain is
+live, complete the `TODO` items in `index.html` (`canonical`, `og:url`,
+`og:image`) and add the sitemap line to `robots.txt`.
 
 ## Running locally
 
