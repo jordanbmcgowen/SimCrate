@@ -10,8 +10,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{
-  --paper:#F8F7F3;
-  --paper-deep:#ECEAE3;
+  --paper:#FFFFFF;
+  --paper-deep:#F2F3F5;
   --ink:#1A1D24;
   --ink-soft:#4C5560;
   --magenta:#DA291C;
@@ -22,7 +22,6 @@
   --lblue:#8FC6E8;
   --sky:#8FC6E8;
   --ground:#8A5A33;
-  --line:rgba(143,198,232,.28);
   --radius:14px;
 }
 *{margin:0;padding:0;box-sizing:border-box}
@@ -33,12 +32,6 @@ body{
   color:var(--ink);
   line-height:1.6;
   font-size:16px;
-  /* faint chart graticule */
-  background-image:
-    linear-gradient(var(--line) 1px, transparent 1px),
-    linear-gradient(90deg, var(--line) 1px, transparent 1px);
-  background-size:120px 120px;
-  background-attachment:fixed;
 }
 ::selection{background:var(--magenta);color:#fff}
 .mono{font-family:'IBM Plex Mono',monospace}
@@ -49,7 +42,7 @@ button{font-family:inherit;cursor:pointer}
 /* ---------- top bar ---------- */
 header{
   position:sticky;top:0;z-index:50;
-  background:rgba(244,239,225,.92);
+  background:rgba(255,255,255,.92);
   backdrop-filter:blur(8px);
   border-bottom:2px solid var(--ink);
 }
